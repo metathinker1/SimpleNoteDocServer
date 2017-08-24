@@ -1,0 +1,14 @@
+{
+  "name": "simple-notedoc-server",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "prestart": "npm install",
+    "start": "node server.js --open"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}

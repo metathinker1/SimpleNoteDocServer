@@ -1,0 +1,47 @@
+# Build results
+
+build/
+
+*.cache
+_cache
+wraps/*.wrap
+
+# NuGet
+packages/*
+NuGet.exe
+NugetOutput
+*.nupkg
+
+App_Data
+UpgradeLog.htm
+Binaries/*
+Logging.Documentation/*
+*.stackdump
+[Dd]ump/*
+
+# ReSharper is a .NET coding add-in
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.sln.DotSettings
+
+# User-specific files
+*.suo
+*.user
+*.vsmdi
+*.sln.docstates
+
+# git conflict files
+*.orig
+*.0
+errors*.txt
+warnings*.txt
+*DS_Store
+
+# node
+node_modules/
+.idea/
+
+# Typescript (for now)
+*.ts
+
+*.log
