@@ -10,8 +10,8 @@ var noteDocRepoDir = '/Users/robertwood/Google Drive/NoteDocRepo/'
 // {DataLink:URL:https://stackoverflow.com/questions/8590042/parsing-query-string-in-node-js}
 var server = http.createServer(function(request, response){
   var queryParams = url.parse(request.url, true).query;
-  console.log(queryParams.dir + ', ' + queryParams.fileName)
-  var filePathName = noteDocRepoDir + queryParams.dir + '/' + queryParams.fileName;
+  console.log(queryParams.dir + ', ' + queryParams.file)
+  var filePathName = noteDocRepoDir + queryParams.dir + '/' + queryParams.file;
   console.log(filePathName)
 
   response.writeHead(200, { 'Content-Type': 'text/plain' });
