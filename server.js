@@ -1,27 +1,32 @@
 
-var http = require('http'),
-    path = require('path'),
-    fs = require('fs'),
-    url = require('url');
+const http = require('http'),
+  connect = require('connect'),
+  path = require('path'),
+  fs = require('fs'),
+  url = require('url');
 
 // TODO: Use configuration to set this; or start in this directory
-var noteDocRepoDir = '/Users/robertwood/Google Drive/NoteDocRepo/'
+const noteDocRepoDir = '/Users/robertwood/Google Drive/NoteDocRepo/'
+const app = connect();
 
 // {DataLink:URL:https://stackoverflow.com/questions/8590042/parsing-query-string-in-node-js}
-var server = http.createServer(function(request, response){
-  var queryParams = url.parse(request.url, true).query;
+app.use('/get-notedoc', function(req, res, next) {
+  var queryParams = url.parse(req.url, true).query;
   console.log(queryParams.dir + ', ' + queryParams.file)
   var filePathName = noteDocRepoDir + queryParams.dir + '/' + queryParams.file;
   console.log(filePathName)
 
-  response.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
   fs.readFile(filePathName, 'utf8', function (err, data) {
     if (err) {
       return console.log(err);
     }
-    response.write(data);
-    response.end();
+    res.write(data);
+    res.end();
   });
 
-}).listen(5011);
+});
+
+app.listen(5011);
+
 console.log('Ready')

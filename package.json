@@ -8,6 +8,7 @@
     "start": "node server.js --open"
   },
   "dependencies": {
+    "connect": "^3.3.1"
   },
   "devDependencies": {
   }
