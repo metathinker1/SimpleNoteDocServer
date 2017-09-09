@@ -3,12 +3,14 @@ const http = require('http'),
   connect = require('connect'),
   path = require('path'),
   fs = require('fs'),
-  url = require('url');
+  url = require('url'),
+  qs = require('qs');
 
 // TODO: Use configuration to set this; or start in this directory
 const noteDocRepoDir = '/Users/robertwood/Google Drive/NoteDocRepo/'
 const app = connect();
 
+// Tool
 function getMethods(obj) {
   var result = [];
   for (var id in obj) {
@@ -40,10 +42,10 @@ app.use('/get-directories', function(req, res, next) {
   // })
 
   const dirs = [];
-  fs.readdirSync(noteDocRepoDir).forEach(file => {
-    var filePath = path.join(noteDocRepoDir, file)
-    if (fs.statSync(filePath).isDirectory()) {
-      dirs.push(file);
+  fs.readdirSync(noteDocRepoDir).forEach(item => {
+    var fullPath = path.join(noteDocRepoDir, item)
+    if (fs.statSync(fullPath).isDirectory()) {
+      dirs.push(item);
     }
   })
   console.log(dirs);
@@ -51,6 +53,23 @@ app.use('/get-directories', function(req, res, next) {
   res.end();
 });
 
+app.use('/get-files', function(req, res, next) {
+  const query = req._parsedUrl.query;
+  const queryParts = qs.parse(query);
+  const dir = queryParts.valueOf()['dir'];
+  console.log(dir)
+  const dirPath = noteDocRepoDir + dir 
+
+  const files = [];
+  fs.readdirSync(dirPath).forEach(item => {
+    var fullPath = path.join(dirPath, item)
+    if (fs.statSync(fullPath).isFile()) {
+      files.push(item);
+    }
+  })
+  res.write(JSON.stringify(files))
+  res.end();
+});
 
 // {DataLink:URL:https://stackoverflow.com/questions/8590042/parsing-query-string-in-node-js}
 app.use('/get-notedoc', function(req, res, next) {
