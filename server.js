@@ -49,8 +49,18 @@ app.use('/get-directories', function(req, res, next) {
     }
   })
   console.log(dirs);
-  res.write(JSON.stringify(dirs))
-  res.end();
+  const responseText = JSON.stringify(dirs);
+  // To avoid: ERR_INVALID_CHUNKED_ENCODING
+  // https://stackoverflow.com/questions/13404200/getting-error-321err-invalid-chunked-encoding-when-trying-to-open-pdf-in-chro
+  res.setHeader('content-length', Buffer.byteLength(responseText, ['utf8']));
+
+  // TODO: Invg: security concerns with this CORS approach
+  // https://enable-cors.org/server.html
+  //res.setHeader('Access-Control-Allow-Origin', '*');
+  res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+  // AFTER: writeHead(): otherwise get: "Can't set headers after they are sent"
+  res.write(responseText); // Buffer.byteLength(string, [encoding])
+  res.end('ok');
 });
 
 app.use('/get-files', function(req, res, next) {
