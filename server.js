@@ -76,9 +76,13 @@ app.use('/get-files', function(req, res, next) {
     if (fs.statSync(fullPath).isFile()) {
       files.push(item);
     }
-  })
-  res.write(JSON.stringify(files))
-  res.end();
+  });
+  console.log(files);
+  const responseText = JSON.stringify(files);
+  res.setHeader('content-length', Buffer.byteLength(responseText, ['utf8']));
+  res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+  res.write(responseText)
+  res.end('ok');
 });
 
 // {DataLink:URL:https://stackoverflow.com/questions/8590042/parsing-query-string-in-node-js}
